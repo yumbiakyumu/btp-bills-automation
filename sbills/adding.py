@@ -3,19 +3,22 @@ import re
 import os
 from dotenv import load_dotenv
 
-# Load environment variables from the .env file
-load_dotenv()
+# Load environment variables from the .env file (if needed for local testing)
+# load_dotenv()
 
 # Set up OpenAI API key
-openai.api_key = os.getenv('OPENAI_API_KEY')
+openai_api_key = os.getenv('OPENAIKEY')  # Ensure this matches the secret name in GitHub
+if openai_api_key is None:
+    raise ValueError("OPENAI_KEY environment variable is not set.")
 
+openai.api_key = openai_api_key
 
 def generate_description(bill_text):
     """Generate a short description for the bill using OpenAI's GPT model."""
     truncated_text = bill_text[:3000]
     
     response = openai.ChatCompletion.create(
-        model="gpt-4o",  
+        model="gpt-4",  # Ensure the model name is correct
         messages=[
             {"role": "user", "content": f"Generate a description of less than 23 words for the following bill (do not start with the bill name or Kenyan bill): {truncated_text}"}
         ],
@@ -27,7 +30,7 @@ def clean_text(text):
     """Remove leading/trailing whitespace, numbers, and unwanted symbols from the text."""
     # Remove leading/trailing whitespace and specific symbols
     text = re.sub(r'^\s*\*\*\s*|\s*\*\*\s*$|^\d+\.\s*', '', text)  
-    text = re.sub(r'^\*\*', '', text) 
+    text = re.sub(r'^\*\*', '', text)  
     return text.strip()
 
 def format_entry(entry):
@@ -47,7 +50,7 @@ def generate_positives(bill_text):
     truncated_text = bill_text[:3000]
     
     response = openai.ChatCompletion.create(
-        model="gpt-4o",  
+        model="gpt-4",  
         messages=[
             {"role": "user", "content": f"Generate 10 concise positives in the format 'Short title (4 to 5 words) : explanation (not more than 30 words).' relevant to the following bill: {truncated_text}"}
         ],
@@ -69,7 +72,7 @@ def generate_negatives(bill_text):
     truncated_text = bill_text[:3000]
     
     response = openai.ChatCompletion.create(
-        model="gpt-4o", 
+        model="gpt-4", 
         messages=[
             {"role": "user", "content": f"Generate 10 concise negatives in the format 'Short title (4 to 5 words) : explanation (not more than 30 words).' relevant to the following bill: {truncated_text}"}
         ],
@@ -91,7 +94,7 @@ def extract_date_with_model(bill_text):
     truncated_text = bill_text[:3000]
 
     response = openai.ChatCompletion.create(
-        model="gpt-4o", 
+        model="gpt-4", 
         messages=[
             {"role": "user", "content": f"Extract the relevant date from the following bill text. Return only the date without any additional text: {truncated_text}"}
         ],
