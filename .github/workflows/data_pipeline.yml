@@ -46,6 +46,8 @@ jobs:
         
     - name: Run Save to Firestore Fields (pbills)
       env:
+        FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_CREDENTIALS }}
+        FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
         OPENAI_KEY: ${{ secrets.OPENAIKEY }}
       run: python pbills/save_to_firestore_fields.py
 
@@ -95,6 +97,8 @@ jobs:
         
     - name: Run Save to Firestore Fields (sbills)
       env:
+        FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_CREDENTIALS }}
+        FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
         OPENAI_KEY: ${{ secrets.OPENAIKEY }}   
       run: python sbills/save_to_firestore_fields.py
         
