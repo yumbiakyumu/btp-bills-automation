@@ -16,13 +16,18 @@ load_dotenv()
 # Import functions from adding.py
 from adding import generate_description, generate_positives, generate_negatives, extract_date, clean_text
 
-# Initialize Firebase Admin SDK using environment variables
-firebase_cred_path = os.getenv('FIREBASE_CREDENTIALS')
-firebase_bucket_url = os.getenv('FIREBASE_STORAGE_BUCKET')
+# Load environment variables
+# load_dotenv()  # Uncomment if you're using a .env file locally
 
-cred = credentials.Certificate(firebase_cred_path)
-firebase_admin.initialize_app(cred, {"storageBucket": firebase_bucket_url})
+# Initialize Firebase Admin SDK with credentials from the environment variable
+firebase_credentials = os.getenv('FIREBASE_CREDENTIALS')  # This should be the entire JSON string
+if firebase_credentials is None:
+    raise ValueError("FIREBASE_CREDENTIALS environment variable is not set.")
 
+# Parse the JSON string into a dictionary
+cred_dict = json.loads(firebase_credentials)
+cred = credentials.Certificate(cred_dict)
+firebase_admin.initialize_app(cred, {"storageBucket": os.getenv('FIREBASE_STORAGE_BUCKET')})
 # Get Firestore client
 db = firestore.client()
 

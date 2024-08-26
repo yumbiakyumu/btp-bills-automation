@@ -79,9 +79,17 @@ with open(processed_list_path, "w", encoding="utf-8") as f:
     json.dump(processed_list, f, ensure_ascii=False, indent=2)
 
 # Save the extracted data to a JSON file
-output_path = r"pbills\parliament-bills.json"
-with open(output_path, "w", encoding="utf-8") as f:
-    json.dump(bills_to_process, f, ensure_ascii=False, indent=2)
+output_path = "pbills\parliament-bills.json"
+
+# Check if any bills were processed
+if bills_to_process:
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(bills_to_process, f, ensure_ascii=False, indent=2)
+else:
+    # If no bills were processed, create an empty JSON file
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump([], f)
+
 
 print(f"Extraction complete. Data saved to {output_path}")
 print(f"Processed list updated. Data saved to {processed_list_path}")
