@@ -93,7 +93,7 @@ jobs:
       env:
        FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_CREDENTIALS }}
        FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
-      run: sbills/save_to_firestore_add_pdf.py
+      run: python sbills/save_to_firestore_add_pdf.py
         
     - name: Run Save to Firestore Fields (sbills)
       env:
