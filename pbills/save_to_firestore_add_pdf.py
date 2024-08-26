@@ -1,7 +1,6 @@
 import firebase_admin
 from firebase_admin import credentials, firestore, storage
 import os
-from dotenv import load_dotenv
 import json
 import random
 import string
@@ -11,11 +10,17 @@ import time
 from requests.adapters import HTTPAdapter
 from urllib3 import Retry
 
-# Load environment variables from the .env file
-load_dotenv()
+# Load environment variables
+# load_dotenv()  # Uncomment if you're using a .env file locally
 
-# Initialize Firebase Admin SDK with credentials from the .env file
-cred = credentials.Certificate(os.getenv('FIREBASE_CREDENTIALS'))
+# Initialize Firebase Admin SDK with credentials from the environment variable
+firebase_credentials = os.getenv('FIREBASE_CREDENTIALS')  # This should be the entire JSON string
+if firebase_credentials is None:
+    raise ValueError("FIREBASE_CREDENTIALS environment variable is not set.")
+
+# Parse the JSON string into a dictionary
+cred_dict = json.loads(firebase_credentials)
+cred = credentials.Certificate(cred_dict)
 firebase_admin.initialize_app(cred, {"storageBucket": os.getenv('FIREBASE_STORAGE_BUCKET')})
 
 # Get Firestore client
@@ -28,13 +33,11 @@ bucket = storage.bucket()
 with open("pbills/parliament-bills.json", "r", encoding="utf-8") as file:
     data = json.load(file)
 
-
 def generate_unique_id():
     prefix = "pbill_"
     alphanumeric = string.ascii_lowercase + string.digits
     random_part = "".join(random.choice(alphanumeric) for _ in range(21))
     return prefix + random_part
-
 
 def create_session():
     session = requests.Session()
@@ -42,7 +45,6 @@ def create_session():
     session.mount("http://", HTTPAdapter(max_retries=retries))
     session.mount("https://", HTTPAdapter(max_retries=retries))
     return session
-
 
 def upload_pdf_to_storage(session, pdf_url, file_name):
     try:
@@ -61,7 +63,6 @@ def upload_pdf_to_storage(session, pdf_url, file_name):
     except requests.exceptions.RequestException as e:
         print(f"Error downloading or uploading PDF from {pdf_url}: {str(e)}")
         return None
-
 
 # Create a session for reuse
 session = create_session()

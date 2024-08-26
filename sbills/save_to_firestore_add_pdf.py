@@ -12,10 +12,14 @@ from requests.adapters import HTTPAdapter
 from urllib3 import Retry
 
 # Load environment variables from the .env file
-load_dotenv()
+# Initialize Firebase Admin SDK with credentials from the environment variable
+firebase_credentials = os.getenv('FIREBASE_CREDENTIALS')  # This should be the entire JSON string
+if firebase_credentials is None:
+    raise ValueError("FIREBASE_CREDENTIALS environment variable is not set.")
 
-# Initialize Firebase Admin SDK with credentials from the .env file
-cred = credentials.Certificate(os.getenv('FIREBASE_CREDENTIALS'))
+# Parse the JSON string into a dictionary
+cred_dict = json.loads(firebase_credentials)
+cred = credentials.Certificate(cred_dict)
 firebase_admin.initialize_app(cred, {"storageBucket": os.getenv('FIREBASE_STORAGE_BUCKET')})
 
 # Get Firestore client
@@ -23,6 +27,7 @@ db = firestore.client()
 
 # Get Storage bucket
 bucket = storage.bucket()
+
 
 # Load JSON data
 with open("sbills/sen-bills.json", "r", encoding="utf-8") as file:
