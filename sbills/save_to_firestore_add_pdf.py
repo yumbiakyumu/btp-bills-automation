@@ -1,7 +1,6 @@
 import firebase_admin
 from firebase_admin import credentials, firestore, storage
 import os
-from dotenv import load_dotenv
 import json
 import random
 import string
@@ -27,7 +26,6 @@ db = firestore.client()
 
 # Get Storage bucket
 bucket = storage.bucket()
-
 
 # Load JSON data
 with open("sbills/sen-bills.json", "r", encoding="utf-8") as file:

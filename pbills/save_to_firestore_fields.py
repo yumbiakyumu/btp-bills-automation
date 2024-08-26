@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 import os
 
 # Load environment variables from .env file
-load_dotenv()
+# load_dotenv()
 
 # Import functions from adding.py
 from adding import generate_description, generate_positives, generate_negatives, extract_date, clean_text
