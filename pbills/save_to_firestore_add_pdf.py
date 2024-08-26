@@ -15,7 +15,7 @@ from urllib3 import Retry
 load_dotenv()
 
 # Initialize Firebase Admin SDK with credentials from the .env file
-cred = credentials.Certificate(os.getenv('FIREBASE_CREDENTIALS_PATH'))
+cred = credentials.Certificate(os.getenv('FIREBASE_CREDENTIALS'))
 firebase_admin.initialize_app(cred, {"storageBucket": os.getenv('FIREBASE_STORAGE_BUCKET')})
 
 # Get Firestore client

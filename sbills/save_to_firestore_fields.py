@@ -17,7 +17,7 @@ load_dotenv()
 from adding import generate_description, generate_positives, generate_negatives, extract_date, clean_text
 
 # Initialize Firebase Admin SDK using environment variables
-firebase_cred_path = os.getenv('FIREBASE_CREDENTIALS_PATH')
+firebase_cred_path = os.getenv('FIREBASE_CREDENTIALS')
 firebase_bucket_url = os.getenv('FIREBASE_STORAGE_BUCKET')
 
 cred = credentials.Certificate(firebase_cred_path)
