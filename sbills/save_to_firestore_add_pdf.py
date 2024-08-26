@@ -25,7 +25,7 @@ db = firestore.client()
 bucket = storage.bucket()
 
 # Load JSON data
-with open("data-scrapper\sbills\sen-bills.json", "r", encoding="utf-8") as file:
+with open("sbills\sen-bills.json", "r", encoding="utf-8") as file:
     data = json.load(file)
 
 

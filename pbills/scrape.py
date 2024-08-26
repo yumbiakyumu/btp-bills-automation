@@ -6,7 +6,7 @@ import os
 
 BASE_URL = "http://parliament.go.ke"
 DOCUMENT_LIST_URL = f"{BASE_URL}/the-national-assembly/house-business/bills"
-FULL_LIST_PATH = r"data-scrapper/pbills/full_list.json" 
+FULL_LIST_PATH = r"pbills/full_list.json" 
 
 def load_existing_data():
     """Load the existing data from full_list.json."""

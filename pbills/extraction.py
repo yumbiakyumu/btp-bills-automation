@@ -26,10 +26,10 @@ def extract_text_from_pdf(pdf_url):
         return ""
 
 # Load the JSON data from full_list.json and processed_list.json
-with open("full_list.json", "r") as f:
+with open("pbills\full_list.json", "r") as f:
     full_list = json.load(f)
 
-with open("data-scrapper/pbills/processed_list.json", "r") as f:
+with open("pbills\processed_list.json", "r") as f:
     processed_list = json.load(f)
 
 # Create sets of titles for each list
@@ -74,12 +74,12 @@ for bill in bills_to_process:
     processed_list.append({"pdf_url": bill["pdf_url"], "title": bill["title"]})
 
 # Save the updated processed_list to a JSON file
-processed_list_path = r"data-scrapper/pbills/processed_list.json"
+processed_list_path = r"pbills\processed_list.json"
 with open(processed_list_path, "w", encoding="utf-8") as f:
     json.dump(processed_list, f, ensure_ascii=False, indent=2)
 
 # Save the extracted data to a JSON file
-output_path = r"data-scrapper/pbills/parliament-bills.json"
+output_path = r"pbills\parliament-bills.json"
 with open(output_path, "w", encoding="utf-8") as f:
     json.dump(bills_to_process, f, ensure_ascii=False, indent=2)
 
