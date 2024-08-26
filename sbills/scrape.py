@@ -47,7 +47,7 @@ def main():
         print(document)
 
     # Optionally, save to a JSON file
-    with open("sbills\sen_full_list.json", "w") as f:
+    with open("sbills/sen_full_list.json", "w") as f:
         json.dump(document_list, f, indent=4)
 
 if __name__ == "__main__":

@@ -26,10 +26,10 @@ def extract_text_from_pdf(pdf_url):
         return ""
 
 # Load the JSON data from full_list.json and processed_list.json
-with open("pbills\full_list.json", "r") as f:
+with open("pbills/full_list.json", "r") as f:
     full_list = json.load(f)
 
-with open("pbills\processed_list.json", "r") as f:
+with open("pbills/processed_list.json", "r") as f:
     processed_list = json.load(f)
 
 # Create sets of titles for each list

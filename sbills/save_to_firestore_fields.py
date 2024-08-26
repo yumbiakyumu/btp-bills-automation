@@ -63,7 +63,7 @@ session = create_session()
 
 # Fetch the sbills collection
 sbills_ref = db.collection('sbills')
-last_processed_doc = load_last_processed('sbills\last_processed_sbills.json')
+last_processed_doc = load_last_processed('sbills/last_processed_sbills.json')
 sbills_docs = sbills_ref.stream()
 
 # Process documents in batches
