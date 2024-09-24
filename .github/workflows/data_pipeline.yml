@@ -23,6 +23,9 @@ jobs:
         
     - name: Install Poppler
       run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+    - name: Install Tesseract
+      run: sudo apt-get install -y tesseract-ocr
     
     - name: Set up Python
       uses: actions/setup-python@v4
