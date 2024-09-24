@@ -21,11 +21,8 @@ jobs:
       with:
         token: ${{ secrets.PERSONAL_TOKEN }}
         
-    - name: Install Poppler
-      run: sudo apt-get update && sudo apt-get install -y poppler-utils
-
-    - name: Install Tesseract
-      run: sudo apt-get install -y tesseract-ocr
+    - name: Install Poppler and Tesseract
+      run: sudo apt-get update && sudo apt-get install -y poppler-utils tesseract-ocr
     
     - name: Set up Python
       uses: actions/setup-python@v4
