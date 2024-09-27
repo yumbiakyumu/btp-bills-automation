@@ -1,5 +1,5 @@
 import json
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from urllib.request import urlopen
 from io import BytesIO
 from pdf2image import convert_from_bytes
@@ -15,12 +15,13 @@ def extract_text_from_pdf(pdf_url):
         # Convert PDF to images
         images = convert_from_bytes(pdf_content.read())
 
-        text = ""
-        for image in images:
-            # Use pytesseract to do OCR on the image
-            text += pytesseract.image_to_string(image) + "\n"
+        # Process pages in parallel
+        with ProcessPoolExecutor() as pool:
+            results = pool.map(pytesseract.image_to_string, images)
 
+        text = "\n".join(results)
         return text.strip()
+
     except Exception as e:
         print(f"Error processing {pdf_url}: {str(e)}")
         return ""
@@ -52,7 +53,7 @@ for title in difference_titles:
 bills_to_process = [bill for bill in full_list if bill['title'] in difference_titles]
 
 # Create a ThreadPoolExecutor
-with ThreadPoolExecutor(max_workers=6) as executor:
+with ProcessPoolExecutor(max_workers=6) as executor:
     # Submit tasks and store futures
     future_to_bill = {
         executor.submit(extract_text_from_pdf, bill["pdf_url"]): bill for bill in bills_to_process
